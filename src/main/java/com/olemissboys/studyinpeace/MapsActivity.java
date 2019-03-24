@@ -1,7 +1,11 @@
 package com.olemissboys.studyinpeace;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -37,11 +41,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        mMap.setMyLocationEnabled(true);
         // Add a marker in Sydney and move the camera
-        LatLng olemiss = new LatLng(34.3647, 89.5384);
-        mMap.addMarker(new MarkerOptions().position(olemiss).title("Marker at University of Mississippi"));
+        LatLng olemiss = new LatLng(34.3647, -89.5384);
+        mMap.addMarker(new MarkerOptions().position(olemiss).title("Marker in Ole Miss"));
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(olemiss));
+    }
+
+    public void buttonBack(View view){
+
     }
 }
